@@ -13,12 +13,9 @@ import {PersonListReactiveFormsComponent} from './example-source-code/person-lis
 import {PersonListTemplateDrivenComponent} from './example-source-code/person-list-template-driven.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {PersonListAsyncReactiveFormsComponent} from './example-source-code/person-list-async-reative-forms.component';
-import {PersonListScrollableComponent} from "./example-source-code/person-list-scrollable.component";
 import {BasicExampleComponent} from "./example-source-code/basic-example.component";
 import {AppRoutingModule} from "./app-routing.module";
 import {MatTabsModule} from "@angular/material/tabs";
-import {ScrollingModule} from '@angular/cdk/scrolling';
-import {TableVirtualScrollModule} from 'ng-table-virtual-scroll';
 
 @NgModule({
   declarations: [
@@ -27,8 +24,7 @@ import {TableVirtualScrollModule} from 'ng-table-virtual-scroll';
     BasicExampleComponent,
     PersonListReactiveFormsComponent,
     PersonListAsyncReactiveFormsComponent,
-    PersonListTemplateDrivenComponent,
-    PersonListScrollableComponent,
+    PersonListTemplateDrivenComponent
   ],
   imports: [
     CommonModule,
@@ -36,9 +32,7 @@ import {TableVirtualScrollModule} from 'ng-table-virtual-scroll';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
-    ScrollingModule,
     AppRoutingModule,
-    TableVirtualScrollModule,
 
     // Example dependencies
     MatInputModule,

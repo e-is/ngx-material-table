@@ -4,7 +4,7 @@ import {AsyncTableElementFactory} from './async-table-element.factory';
 import {ValidatorService} from '../validator.service';
 import {filter, map} from 'rxjs/operators';
 import {moveItemInArray} from '@angular/cdk/drag-drop';
-import {UntypedFormGroup} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {TableDataSourceConfig} from '../table-data-source';
 import {AsyncTableElement} from './async-table-element';
 
@@ -41,7 +41,6 @@ export class AsyncTableDataSource<T,
 
   /**
    * Say if there is a new (and not confirmed) row
-   * @param source
    */
   get hasNewElement(): boolean {
     return !!this._newElement;
@@ -51,7 +50,7 @@ export class AsyncTableDataSource<T,
    * Creates a new TableDataSource instance, that can be used as datasource of `@angular/cdk` data-table.
    * @param data Array containing the initial values for the TableDataSource. If not specified, then `dataType` must be specified.
    * @param dataType Type of data contained by the Table. If not specified, then `data` with at least one element must be specified.
-   * @param validatorService Service that create instances of the UntypedFormGroup used to validate row fields.
+   * @param validatorService Service that create instances of the FormGroup used to validate row fields.
    * @param config Additional configuration for table.
    */
   constructor(
@@ -113,7 +112,8 @@ export class AsyncTableDataSource<T,
 
     const rows = this.rowsSubject.getValue();
 
-    const [currentData, validator] = [options?.originalData || this.createNewObject(), this.createRowValidator({editing: options?.editing})];
+    const currentData = options?.originalData || this.createNewObject();
+    const validator = this.createRowValidator({editing: options?.editing});
 
     const editing = (options?.editing !== false); // true by default
     const id = editing ? -1 : this.getRowIdFromIndex(rows.length, rows.length + 1);
@@ -544,7 +544,7 @@ export class AsyncTableDataSource<T,
     }
   }
 
-  protected createRowValidator(options = {editing: true}): UntypedFormGroup {
+  protected createRowValidator(options = {editing: true}): FormGroup {
     if (!this.validatorService) return null;
     const validator = this.validatorService.getRowValidator();
 
@@ -561,8 +561,8 @@ export class AsyncTableDataSource<T,
    * @param options
    * @protected
    */
-  protected createRowValidators(count: number, options = {editing: false}): UntypedFormGroup[] {
-    const validators = new Array<UntypedFormGroup>(count);
+  protected createRowValidators(count: number, options = {editing: false}): FormGroup[] {
+    const validators = new Array<FormGroup>(count);
     for (let i = 0; i<count; i++) {
       validators[i] = this.createRowValidator(options);
     }

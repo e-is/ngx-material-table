@@ -1,10 +1,10 @@
-import {UntypedFormGroup} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {waitWhilePending} from '../validator.utils';
 import {AsyncTableElement} from './async-table-element';
 
 export class AsyncTableElementReactiveForms<T> extends AsyncTableElement<T> {
 
-  validator: UntypedFormGroup;
+  validator: FormGroup;
 
   get currentData(): T {
     return this.validator.getRawValue();

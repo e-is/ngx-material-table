@@ -1,4 +1,4 @@
-import {UntypedFormGroup} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 
 import {TableDataSource} from './table-data-source';
 
@@ -15,8 +15,8 @@ export abstract class TableElement<T> {
   abstract set currentData(currentData: T);
   abstract cloneData(): T;
 
-  abstract get validator(): UntypedFormGroup;
-  abstract set validator(validator: UntypedFormGroup);
+  abstract get validator(): FormGroup;
+  abstract set validator(validator: FormGroup);
 
   delete(): boolean {
     return this.source.delete(this.id);

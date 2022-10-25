@@ -1,4 +1,4 @@
-import {UntypedFormGroup} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {AsyncTableDataSource} from './async-table-data-source';
 
 export abstract class AsyncTableElement<T> {
@@ -14,8 +14,8 @@ export abstract class AsyncTableElement<T> {
   abstract set currentData(currentData: T);
   abstract cloneData(): T;
 
-  abstract get validator(): UntypedFormGroup;
-  abstract set validator(validator: UntypedFormGroup);
+  abstract get validator(): FormGroup;
+  abstract set validator(validator: FormGroup);
 
   delete(): Promise<boolean> {
     return this.source.delete(this.id);

@@ -1,9 +1,9 @@
 import {TableElement} from './table-element';
-import {UntypedFormGroup} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 
 export class TableElementReactiveForms<T> extends TableElement<T> {
 
-  validator: UntypedFormGroup;
+  validator: FormGroup;
 
   get currentData(): T {
     return this.validator.getRawValue();
