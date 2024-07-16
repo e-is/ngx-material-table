@@ -4,7 +4,7 @@ import { PersonValidatorService } from './person-list.validator';
 import { environment } from '../../environments/environment';
 import { generatePersons, Person } from './person.model';
 import { ScrollableTableDataSource } from '../ngx-material-table/scrollable/scrollable-table-data-source';
-import { AsyncTableElement } from '../ngx-material-table/scrollable/async-table-element';
+import { AsyncTableElement } from '../ngx-material-table/async/async-table-element';
 
 @Component({
   selector: 'app-person-list-scrollable',

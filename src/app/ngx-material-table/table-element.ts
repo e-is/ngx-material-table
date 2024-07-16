@@ -17,19 +17,19 @@ export abstract class TableElement<T> {
   abstract get validator(): UntypedFormGroup;
   abstract set validator(validator: UntypedFormGroup);
 
-  delete(): boolean {
-    return this.source.delete(this.id);
+  delete( options = { emitEvent: true }): boolean {
+    return this.source.delete(this.id, options);
   }
 
-  confirmEditCreate(): boolean {
-    return this.source.confirmEditCreate(this);
+  confirmEditCreate(options = { emitEvent: true }): boolean {
+    return this.source.confirmEditCreate(this, options);
   }
 
   /**
    * Cancel or delete
    */
-  cancelOrDelete(): boolean {
-    return this.source.cancelOrDelete(this);
+  cancelOrDelete(options = { emitEvent: true }): boolean {
+    return this.source.cancelOrDelete(this, options);
   }
 
   cancel(): boolean {

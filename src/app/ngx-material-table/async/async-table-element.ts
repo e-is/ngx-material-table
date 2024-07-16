@@ -1,10 +1,11 @@
 import { UntypedFormGroup } from '@angular/forms';
 import { AsyncTableDataSource } from './async-table-data-source';
+import {ScrollableTableDataSource} from "../scrollable/scrollable-table-data-source";
 
 export abstract class AsyncTableElement<T> {
   id: number;
   originalData?: T;
-  source: AsyncTableDataSource<T, any>;
+  source: AsyncTableDataSource<T, any> | ScrollableTableDataSource<T, any>;
 
   abstract get editing(): boolean;
   abstract set editing(editing: boolean);
@@ -16,19 +17,19 @@ export abstract class AsyncTableElement<T> {
   abstract get validator(): UntypedFormGroup;
   abstract set validator(validator: UntypedFormGroup);
 
-  delete(): Promise<boolean> {
-    return this.source.delete(this.id);
+  delete( options = { emitEvent: true }): Promise<boolean> {
+    return this.source.delete(this.id, options);
   }
 
-  confirmEditCreate(): Promise<boolean> {
-    return this.source.confirmEditCreate(this);
+  confirmEditCreate(options = { emitEvent: true }): Promise<boolean> {
+    return this.source.confirmEditCreate(this, options);
   }
 
   /**
    * Cancel or delete
    */
-  cancelOrDelete(): Promise<boolean> {
-    return this.source.cancelOrDelete(this);
+  cancelOrDelete(options = { emitEvent: true }): Promise<boolean> {
+    return this.source.cancelOrDelete(this, options);
   }
 
   cancel(): Promise<boolean> {

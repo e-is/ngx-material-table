@@ -1,11 +1,11 @@
 import { CollectionViewer, ListRange } from '@angular/cdk/collections';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
-import { AsyncTableElementFactory } from './async-table-element.factory';
+import { AsyncTableElementFactory } from '../async/async-table-element.factory';
 import { ValidatorService } from '../validator.service';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { UntypedFormGroup } from '@angular/forms';
 import { TableDataSourceConfig } from '../table-data-source';
-import { AsyncTableElement } from './async-table-element';
+import { AsyncTableElement } from '../async/async-table-element';
 import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 
 export class ScrollableTableDataSource<
@@ -117,7 +117,8 @@ export class ScrollableTableDataSource<
 
     const rows = this.rowsSubject.getValue();
 
-    const [currentData, validator] = [options?.originalData || this.createNewObject(), this.createRowValidator({ editing: options?.editing })];
+    const currentData = options?.originalData || this.createNewObject();
+    const validator = this.createRowValidator({ editing: options?.editing });
 
     const editing = options?.editing !== false; // true by default
     const id = editing ? -1 : this.getRowIdFromIndex(rows.length, rows.length + 1);
@@ -181,7 +182,8 @@ export class ScrollableTableDataSource<
     // Insert into rows array
     if (insertAt) {
       rows.splice(insertAt, 0, ...newElements);
-      this.updateRowIds(0, rows);
+      const refreshStartIndex = this._config.prependNewElements ? insertAt + newElements.length - 1 : insertAt;
+      this.updateRowIds(refreshStartIndex, rows);
     } else {
       if (this._config.prependNewElements) {
         rows = newElements.concat(...rows);
@@ -334,15 +336,15 @@ export class ScrollableTableDataSource<
    * @param direction Direction: negative value for up, positive value for down
    */
   async move(id: number, direction: number): Promise<boolean> {
-    if (direction === 0) {
-      return false;
-    }
+    if (!direction) return false;
 
     const source = this.rowsSubject.getValue();
     const index = this.getIndexFromRowId(id, source);
 
     moveItemInArray(source, index, index + direction);
-    this.updateRowIds(0, source);
+
+    const refreshStartIndex = this._config.prependNewElements ? Math.max(index, index + direction) : Math.min(index, index + direction);
+    this.updateRowIds(refreshStartIndex, source);
 
     this.rowsSubject.next(source);
 
@@ -472,6 +474,9 @@ export class ScrollableTableDataSource<
 
     for (let index = initialIndex; index < source.length && index >= 0; index += delta) {
       if (source[index].id !== -1) {
+        // DEBUG
+        //const newId = this.getRowIdFromIndex(index, source.length);
+        //console.debug(`Updating row id ${source[index].id} -> ${newId}`);
         source[index].id = this.getRowIdFromIndex(index, source.length);
       }
     }
@@ -562,7 +567,7 @@ export class ScrollableTableDataSource<
 
   /** Connect function called by the table to retrieve one stream containing
    *  the data to render. */
-  /*connect(collectionViewer: CollectionViewer): BehaviorSubject<R[]> {
+  /*connect(collectionViewer: CollectionViewer): Observable<R[] | ReadonlyArray<R>> {
     // No collection viewer: return all data
     if (!collectionViewer) {
       return this.rowsSubject.asObservable();
@@ -570,15 +575,15 @@ export class ScrollableTableDataSource<
 
     const range: ListRange = {
       start: 0,
-      end: -1
+      end: -1,
     };
     this.connectedViewers.push({
       viewer: collectionViewer,
       range,
-      subscription: collectionViewer.viewChange.subscribe(r => {
+      subscription: collectionViewer.viewChange.subscribe((r) => {
         range.start = r.start;
         range.end = r.end;
-      })
+      }),
     });
     return this.rowsSubject.asObservable()
       .pipe(
@@ -590,6 +595,9 @@ export class ScrollableTableDataSource<
             }
             return data.slice(range.start);
           }
+        if (range.end < data.length) {
+          return data.slice(0, range.end);
+        }
           return data;
         })
       );
@@ -597,9 +605,9 @@ export class ScrollableTableDataSource<
 
   }
 
-  disconnect(collectionViewer: CollectionViewer): void {
+  disconnect(collectionViewer: CollectionViewer) {
     if (collectionViewer) {
-      const refIndex = this.connectedViewers.findIndex(r => r.viewer === collectionViewer);
+      const refIndex = this.connectedViewers.findIndex((r) => r.viewer === collectionViewer);
       if (refIndex !== -1) {
         const ref = this.connectedViewers.splice(refIndex, 1)[0];
         ref.subscription.unsubscribe();

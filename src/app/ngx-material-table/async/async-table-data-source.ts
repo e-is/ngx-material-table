@@ -311,7 +311,7 @@ export class AsyncTableDataSource<
    * Restore the original data
    * @param row
    */
-  cancel(row: R): Promise<boolean> {
+  async cancel(row: R): Promise<boolean> {
     if (row.id === -1) throw new Error('Cannot cancel a newly created row. Please use delete() or cancelOrDelete() instead');
     if (!row.editing) throw new Error('Cannot cancel a not editing row. Please use delete() or cancelOrDelete() instead');
 
@@ -323,7 +323,7 @@ export class AsyncTableDataSource<
       row.validator.markAsPristine();
     }
 
-    return Promise.resolve(true);
+    return true;
   }
 
   /**
