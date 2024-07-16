@@ -1,11 +1,11 @@
 import { UntypedFormGroup } from '@angular/forms';
-import { AsyncTableDataSource } from './async-table-data-source';
+import {AsyncTableDataSource, IAsyncTableDataSource} from './async-table-data-source';
 import {ScrollableTableDataSource} from "../scrollable/scrollable-table-data-source";
 
 export abstract class AsyncTableElement<T> {
   id: number;
   originalData?: T;
-  source: AsyncTableDataSource<T, any> | ScrollableTableDataSource<T, any>;
+  source: IAsyncTableDataSource<T, any>;
 
   abstract get editing(): boolean;
   abstract set editing(editing: boolean);

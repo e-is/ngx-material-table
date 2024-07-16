@@ -7,13 +7,14 @@ import { UntypedFormGroup } from '@angular/forms';
 import { TableDataSourceConfig } from '../table-data-source';
 import { AsyncTableElement } from '../async/async-table-element';
 import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
+import {IAsyncTableDataSource} from "../async/async-table-data-source";
 
 export class ScrollableTableDataSource<
   T,
   V extends ValidatorService = ValidatorService,
   C extends TableDataSourceConfig = TableDataSourceConfig,
   R extends AsyncTableElement<T> = AsyncTableElement<T>,
-> extends TableVirtualScrollDataSource<R> {
+> extends TableVirtualScrollDataSource<R> implements IAsyncTableDataSource<T, R> {
   /**
    * Return the data array, of confirmed rows (currentData)
    */

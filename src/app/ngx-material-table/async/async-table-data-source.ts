@@ -8,12 +8,21 @@ import { UntypedFormGroup } from '@angular/forms';
 import { TableDataSourceConfig } from '../table-data-source';
 import { AsyncTableElement } from './async-table-element';
 
+export interface IAsyncTableDataSource<T, R extends AsyncTableElement<T>> extends DataSource<R> {
+  delete(id: number, options?: { emitEvent: boolean }): Promise<boolean>;
+  confirmEditCreate(row: R, options?: { emitEvent: boolean }): Promise<boolean>;
+  cancelOrDelete(row: R, options?: { emitEvent: boolean }): Promise<boolean>;
+  cancel(row: R): Promise<boolean>;
+  startEdit(row: R): Promise<boolean>;
+  move(id: number, direction: number): Promise<boolean>;
+}
+
 export class AsyncTableDataSource<
   T,
   V extends ValidatorService = ValidatorService,
   C extends TableDataSourceConfig = TableDataSourceConfig,
   R extends AsyncTableElement<T> = AsyncTableElement<T>,
-> extends DataSource<R> {
+> extends DataSource<R> implements IAsyncTableDataSource<T, R> {
   /**
    * Return the data array, of confirmed rows (currentData)
    */
