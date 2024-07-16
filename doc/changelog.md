@@ -29,3 +29,6 @@ Inconsistent version (DO NOT USED)
 
 ## 17.2.2
 - Fix dependency error 
+
+## 17.3.0
+- [enh] Migrate to Angular 17.3 
