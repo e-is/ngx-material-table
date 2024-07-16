@@ -24,3 +24,8 @@
 ## 17.2.1
 - [enh] Add options argument to `row.delete()`, `row.confirmEditCreate()` and `row.cancelOrDelete()`
 - [fix] Scrollable : remove duplicated class AsyncTableElement
+
+Inconsistent version (DO NOT USED)
+
+## 17.2.2
+- Fix dependency error 
