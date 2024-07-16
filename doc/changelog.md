@@ -20,3 +20,7 @@
 
 ## 17.2.0
 - [enh] Migrate to Angular 17.2 
+
+## 17.2.1
+- [enh] Add options argument to `row.delete()`, `row.confirmEditCreate()` and `row.cancelOrDelete()`
+- [fix] Scrollable : remove duplicated class AsyncTableElement
