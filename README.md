@@ -8,6 +8,8 @@ It extends `@angular/cdk/collections` DataSource in order to include a row struc
 
 Supported angular versions: 
 - Angular 17 (v17.x)
+  - 17.3 (v17.3.x)
+  - 17.2 (v17.2.x)
 - Angular 16 (v0.16.0)
 - Angular 15 (v0.15.0)
 - Angular 14 (v0.14.0)
