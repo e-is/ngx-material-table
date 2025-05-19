@@ -32,3 +32,6 @@ Inconsistent version (DO NOT USED)
 
 ## 17.3.0
 - [enh] Migrate to Angular 17.3 
+
+## 18.0.0
+- [enh] Migrate to Angular 18 
