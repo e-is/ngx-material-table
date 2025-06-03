@@ -136,7 +136,7 @@ export class AsyncTableDataSource<
       source: this,
     });
 
-    if (insertAt) {
+    if (insertAt >= 0) {
       rows.splice(insertAt, 0, newElement);
       this.rowsSubject.next(rows);
     } else {
@@ -185,7 +185,7 @@ export class AsyncTableDataSource<
     let rows = this.rowsSubject.getValue();
 
     // Insert into rows array
-    if (insertAt) {
+    if (insertAt >= 0) {
       rows.splice(insertAt, 0, ...newElements);
       const refreshStartIndex = this._config.prependNewElements ? insertAt + newElements.length - 1 : insertAt;
       this.updateRowIds(refreshStartIndex, rows);
