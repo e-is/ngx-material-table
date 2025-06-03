@@ -516,11 +516,11 @@ export class AsyncTableDataSource<
     // Create many validators (batch mode)
     const validators = this.createRowValidators(arrayData.length);
 
-    return arrayData.map<R>((data, index) => {
+    return arrayData.map<R>((currentData, index) => {
       return AsyncTableElementFactory.createTableElement({
         id: this.getRowIdFromIndex(index, arrayData.length),
         editing,
-        currentData: data,
+        currentData,
         validator: validators[index],
         // Link to datasource
         source: this,
