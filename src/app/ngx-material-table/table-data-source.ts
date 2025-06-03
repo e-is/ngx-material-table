@@ -511,16 +511,16 @@ export class TableDataSource<
    * @param options
    */
   protected createRowsFromData(arrayData: T[], options = { editing: false }): R[] {
-    const editing = options.editing === true;
+    const editing = options.editing === true; // false by default (e.g. when initial data)
 
     // Create many validators (batch mode)
     const validators = this.createRowValidators(arrayData.length, { editing });
 
-    return arrayData.map<R>((data, index) => {
+    return arrayData.map<R>((currentData, index) => {
       return TableElementFactory.createTableElement({
         id: this.getRowIdFromIndex(index, arrayData.length),
         editing,
-        currentData: data,
+        currentData,
         validator: validators[index],
         // Link to datasource
         source: this,

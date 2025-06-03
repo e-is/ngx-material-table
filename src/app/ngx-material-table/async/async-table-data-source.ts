@@ -511,10 +511,10 @@ export class AsyncTableDataSource<
    * @param options
    */
   protected createRowsFromData(arrayData: T[], options = { editing: false }): R[] {
+    const editing = options.editing === true; // false by default (e.g. when initial data)
+
     // Create many validators (batch mode)
     const validators = this.createRowValidators(arrayData.length);
-
-    const editing = options.editing === true; // false by default (e.g. when initial data)
 
     return arrayData.map<R>((data, index) => {
       return AsyncTableElementFactory.createTableElement({

@@ -36,5 +36,5 @@ Inconsistent version (DO NOT USED)
 ## 18.0.0
 - [enh] Migrate to Angular 18 
 
-## 18.0.1
-- [fix] `DataSource.createNew()` should always use the value of `insertAt` when equals to 0 (change `if (insertAt) { /*...*/ }` into `if (insertAt >= 0) { /*...*/ }`)  
+## 18.0.2
+- [fix] `DataSource.createNew()` should always use the value of `insertAt` when equals to 0 (replace `if (insertAt) { /*...*/ }` with `if (insertAt >= 0) { /*...*/ }`) 
