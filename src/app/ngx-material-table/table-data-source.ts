@@ -138,7 +138,7 @@ export class TableDataSource<
       source: this,
     });
 
-    if (insertAt >= 0) {
+    if (insertAt != null && insertAt >= 0) {
       rows.splice(insertAt, 0, newElement);
       this.rowsSubject.next(rows);
     } else {
@@ -187,7 +187,7 @@ export class TableDataSource<
     let rows = this.rowsSubject.getValue();
 
     // Insert into rows array
-    if (insertAt >= 0) {
+    if (insertAt != null && insertAt >= 0) {
       rows.splice(insertAt, 0, ...newElements);
       const refreshStartIndex = this._config.prependNewElements ? insertAt + newElements.length - 1 : insertAt;
       this.updateRowIds(refreshStartIndex, rows);

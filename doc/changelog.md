@@ -38,3 +38,6 @@ Inconsistent version (DO NOT USED)
 
 ## 18.0.2
 - [fix] `DataSource.createNew()` should always use the value of `insertAt` when equals to 0 (replace `if (insertAt) { /*...*/ }` with `if (insertAt >= 0) { /*...*/ }`) 
+
+## 18.0.3
+- [fix] Fix error when calling `DataSource.addMany()` with `insertAt=null`  
