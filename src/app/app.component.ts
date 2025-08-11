@@ -6,9 +6,10 @@ import { Person } from './example-source-code/person.model';
 import { PersonListAsyncReactiveFormsComponent } from './example-source-code/person-list-async-reative-forms.component';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: false
 })
 export class AppComponent {
   @ViewChild('reactiveFormsList') reactiveFormsList: PersonListReactiveFormsComponent;

@@ -6,9 +6,10 @@ import { AsyncPersonValidatorService } from './person-list-async.validator';
 import { AsyncTableDataSource } from '../ngx-material-table/async/async-table-data-source';
 
 @Component({
-  selector: 'app-person-list-async-reactive-forms',
-  templateUrl: './person-list-async-reactive-forms.component.html',
-  providers: [{ provide: ValidatorService, useClass: AsyncPersonValidatorService }],
+    selector: 'app-person-list-async-reactive-forms',
+    templateUrl: './person-list-async-reactive-forms.component.html',
+    providers: [{ provide: ValidatorService, useClass: AsyncPersonValidatorService }],
+    standalone: false
 })
 export class PersonListAsyncReactiveFormsComponent implements OnInit {
   constructor(private personValidator: ValidatorService) {}

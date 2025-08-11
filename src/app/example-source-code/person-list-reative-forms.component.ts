@@ -6,9 +6,10 @@ import { environment } from '../../environments/environment';
 import { generatePersons, Person } from './person.model';
 
 @Component({
-  selector: 'app-person-list-reactive-forms',
-  templateUrl: './person-list-reactive-forms.component.html',
-  providers: [{ provide: ValidatorService, useClass: PersonValidatorService }],
+    selector: 'app-person-list-reactive-forms',
+    templateUrl: './person-list-reactive-forms.component.html',
+    providers: [{ provide: ValidatorService, useClass: PersonValidatorService }],
+    standalone: false
 })
 export class PersonListReactiveFormsComponent implements OnInit {
   constructor(private personValidator: ValidatorService) {}
