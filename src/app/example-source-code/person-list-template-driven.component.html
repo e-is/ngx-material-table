@@ -41,15 +41,23 @@
         </button>
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
-        <button *ngIf="!row.editing" mat-icon-button color="primary" tabindex="-1" (click)="row.startEdit()">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button *ngIf="row.editing" mat-icon-button color="primary" tabindex="-1" (click)="row.confirmEditCreate()">
-          <mat-icon>done</mat-icon>
-        </button>
+        @if (!row.editing) {
+          <button mat-icon-button color="primary" tabindex="-1" (click)="row.startEdit()">
+            <mat-icon>edit</mat-icon>
+          </button>
+        }
+        @if (row.editing) {
+          <button mat-icon-button color="primary" tabindex="-1" (click)="row.confirmEditCreate()">
+            <mat-icon>done</mat-icon>
+          </button>
+        }
         <button mat-icon-button color="primary" tabindex="-1" (click)="row.cancelOrDelete()">
-          <mat-icon *ngIf="row.editing">undo</mat-icon>
-          <mat-icon *ngIf="!row.editing">delete</mat-icon>
+          @if (row.editing) {
+            <mat-icon>undo</mat-icon>
+          }
+          @if (!row.editing) {
+            <mat-icon>delete</mat-icon>
+          }
         </button>
       </mat-cell>
     </ng-container>

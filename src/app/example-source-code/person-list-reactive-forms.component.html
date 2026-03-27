@@ -14,14 +14,20 @@
       <mat-cell *matCellDef="let row">
         <mat-form-field>
           <input [formControl]="row.validator.controls.name" placeholder="Name" matInput />
-          <mat-error *ngIf="row.validator.controls.name.hasError('required')">Required</mat-error>
-          <mat-error *ngIf="row.validator.controls.name.hasError('minlength')">
-            Should have more than 2 caracters
-          </mat-error>
-          <mat-hint *ngIf="row.valid">
-            <mat-icon>check</mat-icon>
-            Available and valid
-          </mat-hint>
+          @if (row.validator.controls.name.hasError('required')) {
+            <mat-error>Required</mat-error>
+          }
+          @if (row.validator.controls.name.hasError('minlength')) {
+            <mat-error>
+              Should have more than 2 caracters
+            </mat-error>
+          }
+          @if (row.valid) {
+            <mat-hint>
+              <mat-icon>check</mat-icon>
+              Available and valid
+            </mat-hint>
+          }
         </mat-form-field>
       </mat-cell>
     </ng-container>
@@ -30,8 +36,12 @@
       <mat-cell *matCellDef="let row">
         <mat-form-field>
           <input [formControl]="row.validator.controls.age" type="number" placeholder="Age" matInput />
-          <mat-error *ngIf="row.validator.controls.age.hasError('min')">Should be greater than 0</mat-error>
-          <mat-error *ngIf="row.validator.controls.age.hasError('max')">Should be less than 120</mat-error>
+          @if (row.validator.controls.age.hasError('min')) {
+            <mat-error>Should be greater than 0</mat-error>
+          }
+          @if (row.validator.controls.age.hasError('max')) {
+            <mat-error>Should be less than 120</mat-error>
+          }
         </mat-form-field>
       </mat-cell>
     </ng-container>
@@ -51,43 +61,54 @@
       </mat-header-cell>
 
       <mat-cell *matCellDef="let row">
-        <button *ngIf="!row.editing" mat-icon-button color="primary" tabindex="-1" (click)="row.startEdit()">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button
-          *ngIf="row.editing"
-          mat-icon-button
-          color="primary"
-          (click)="row.confirmEditCreate()"
-          [disabled]="row.pending"
-        >
-          <mat-icon>done</mat-icon>
-        </button>
+        @if (!row.editing) {
+          <button mat-icon-button color="primary" tabindex="-1" (click)="row.startEdit()">
+            <mat-icon>edit</mat-icon>
+          </button>
+        }
+        @if (row.editing) {
+          <button
+            mat-icon-button
+            color="primary"
+            (click)="row.confirmEditCreate()"
+            [disabled]="row.pending"
+            >
+            <mat-icon>done</mat-icon>
+          </button>
+        }
         <button mat-icon-button color="primary" tabindex="-1" (click)="row.cancelOrDelete()" [disabled]="row.pending">
-          <mat-icon *ngIf="row.editing">undo</mat-icon>
-          <mat-icon *ngIf="!row.editing">delete</mat-icon>
+          @if (row.editing) {
+            <mat-icon>undo</mat-icon>
+          }
+          @if (!row.editing) {
+            <mat-icon>delete</mat-icon>
+          }
         </button>
-        <button
-          *ngIf="!row.editing"
-          mat-icon-button
-          color="primary"
-          tabindex="-1"
-          (click)="row.move(-1)"
-          [disabled]="row.pending"
-        >
-          <mat-icon>arrow_upward</mat-icon>
-        </button>
-        <button
-          *ngIf="!row.editing"
-          mat-icon-button
-          color="primary"
-          tabindex="-1"
-          (click)="row.move(1)"
-          [disabled]="row.pending"
-        >
-          <mat-icon>arrow_downward</mat-icon>
-        </button>
-        <mat-spinner *ngIf="row.pending" diameter="24"></mat-spinner>
+        @if (!row.editing) {
+          <button
+            mat-icon-button
+            color="primary"
+            tabindex="-1"
+            (click)="row.move(-1)"
+            [disabled]="row.pending"
+            >
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+        }
+        @if (!row.editing) {
+          <button
+            mat-icon-button
+            color="primary"
+            tabindex="-1"
+            (click)="row.move(1)"
+            [disabled]="row.pending"
+            >
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+        }
+        @if (row.pending) {
+          <mat-spinner diameter="24"></mat-spinner>
+        }
       </mat-cell>
     </ng-container>
 
