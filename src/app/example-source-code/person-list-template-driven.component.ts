@@ -4,8 +4,9 @@ import { environment } from '../../environments/environment';
 import { Person, generatePersons } from './person.model';
 
 @Component({
-  selector: 'app-person-list-template-driven',
-  templateUrl: './person-list-template-driven.component.html',
+    selector: 'app-person-list-template-driven',
+    templateUrl: './person-list-template-driven.component.html',
+    standalone: false
 })
 export class PersonListTemplateDrivenComponent implements OnInit {
   private _displayedColumns = ['id', 'name', 'age', 'actionsColumn'];

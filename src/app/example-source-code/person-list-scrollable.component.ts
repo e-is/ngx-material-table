@@ -7,10 +7,11 @@ import { ScrollableTableDataSource } from '../ngx-material-table/scrollable/scro
 import { AsyncTableElement } from '../ngx-material-table/async/async-table-element';
 
 @Component({
-  selector: 'app-person-list-scrollable',
-  templateUrl: './person-list-scrollable.component.html',
-  styleUrls: ['./person-list-scrollable.component.scss'],
-  providers: [{ provide: ValidatorService, useClass: PersonValidatorService }],
+    selector: 'app-person-list-scrollable',
+    templateUrl: './person-list-scrollable.component.html',
+    styleUrls: ['./person-list-scrollable.component.scss'],
+    providers: [{ provide: ValidatorService, useClass: PersonValidatorService }],
+    standalone: false
 })
 export class PersonListScrollableComponent implements OnInit {
   private _displayedColumns = ['id', 'name', 'age', 'actionsColumn'];

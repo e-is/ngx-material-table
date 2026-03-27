@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import {NgModule, provideExperimentalZonelessChangeDetection} from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatTableModule } from '@angular/material/table';
@@ -50,6 +50,9 @@ import { TableVirtualScrollModule } from 'ng-table-virtual-scroll';
     MatTabsModule,
   ],
   exports: [],
+  providers: [
+    provideExperimentalZonelessChangeDetection(),
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -5,8 +5,9 @@ import { PersonListTemplateDrivenComponent } from './person-list-template-driven
 import { PersonListReactiveFormsComponent } from './person-list-reative-forms.component';
 
 @Component({
-  selector: 'app-basic-example',
-  templateUrl: './basic-example.component.html',
+    selector: 'app-basic-example',
+    templateUrl: './basic-example.component.html',
+    standalone: false
 })
 export class BasicExampleComponent {
   personList = generatePersons();
