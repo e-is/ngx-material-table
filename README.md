@@ -7,6 +7,8 @@ This project extends `@angular/cdk` data-table, also used in `@angular/material`
 It extends `@angular/cdk/collections` DataSource in order to include a row structure, allowing row creation, inline row edition, deletion and validation.
 
 Supported angular versions: 
+- Angular 20 (v20.x)
+- Angular 18 (v18.x)
 - Angular 17 (v17.x)
   - 17.3 (v17.3.x)
   - 17.2 (v17.2.x)
@@ -91,8 +93,8 @@ Angular material table use example:
 #### Optional libraries
 Optional libraries used in the example:
 ```
-"@angular/material": "16.2.11",
-"@angular/forms": 16.2.12", // <- For inline validation
+"@angular/material": "^20.2.0",
+"@angular/forms": "^20.3.0", // <- For inline validation
 "material-design-icons": "^3.0.1"
 ```
 
