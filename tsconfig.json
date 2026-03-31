@@ -14,14 +14,8 @@
     "incremental": true,
     "module": "es2020",
     "moduleResolution": "bundler",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "target": "es2022",
-    "lib": [
-      "es2020",
-      "dom"
-    ]
+    "typeRoots": ["node_modules/@types"],
+    "target": "es2022"
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
