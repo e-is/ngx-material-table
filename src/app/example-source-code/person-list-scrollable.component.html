@@ -19,9 +19,7 @@
             <mat-error>Required</mat-error>
           }
           @if (row.validator.controls.name.hasError('minLength')) {
-            <mat-error>
-              Should have more than 2 caracters
-            </mat-error>
+            <mat-error>Should have more than 2 caracters</mat-error>
           }
           @if (row.valid) {
             <mat-hint>
@@ -69,12 +67,7 @@
           </button>
         }
         @if (row.editing) {
-          <button
-            mat-icon-button
-            color="primary"
-            (click)="row.confirmEditCreate()"
-            [disabled]="row.pending"
-            >
+          <button mat-icon-button color="primary" (click)="row.confirmEditCreate()" [disabled]="row.pending">
             <mat-icon>done</mat-icon>
           </button>
         }
@@ -87,24 +80,12 @@
           }
         </button>
         @if (!row.editing) {
-          <button
-            mat-icon-button
-            color="primary"
-            tabindex="-1"
-            (click)="row.move(-1)"
-            [disabled]="row.pending"
-            >
+          <button mat-icon-button color="primary" tabindex="-1" (click)="row.move(-1)" [disabled]="row.pending">
             <mat-icon>arrow_upward</mat-icon>
           </button>
         }
         @if (!row.editing) {
-          <button
-            mat-icon-button
-            color="primary"
-            tabindex="-1"
-            (click)="row.move(1)"
-            [disabled]="row.pending"
-            >
+          <button mat-icon-button color="primary" tabindex="-1" (click)="row.move(1)" [disabled]="row.pending">
             <mat-icon>arrow_downward</mat-icon>
           </button>
         }
