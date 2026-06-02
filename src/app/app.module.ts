@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {NgModule, provideZonelessChangeDetection} from '@angular/core';
+import { NgModule, provideZonelessChangeDetection } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatTableModule } from '@angular/material/table';

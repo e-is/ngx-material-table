@@ -1,5 +1,5 @@
 import { UntypedFormGroup } from '@angular/forms';
-import { IAsyncTableDataSource} from './async-table-data-source';
+import { IAsyncTableDataSource } from './async-table-data-source';
 
 export abstract class AsyncTableElement<T> {
   id: number;

@@ -7,7 +7,7 @@ import { UntypedFormGroup } from '@angular/forms';
 import { TableDataSourceConfig } from '../table-data-source';
 import { AsyncTableElement } from '../async/async-table-element';
 import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
-import {IAsyncTableDataSource} from "../async/async-table-data-source";
+import { IAsyncTableDataSource } from '../async/async-table-data-source';
 
 export class ScrollableTableDataSource<
   T,

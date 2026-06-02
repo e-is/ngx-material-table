@@ -1,5 +1,5 @@
 import { ValidatorService } from '../ngx-material-table/validator.service';
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PersonValidatorService } from './person-list.validator';
 import { TableDataSource } from '../ngx-material-table/table-data-source';
 import { environment } from '../../environments/environment';
