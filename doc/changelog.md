@@ -41,3 +41,6 @@ Inconsistent version (DO NOT USED)
 
 ## 18.0.3
 - [fix] Fix error when calling `DataSource.addMany()` with `insertAt=null`  
+
+## 21.0.1
+- [enh] Upgrade to Angular 21
