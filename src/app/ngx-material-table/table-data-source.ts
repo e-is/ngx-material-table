@@ -290,11 +290,17 @@ export class TableDataSource<
     if (row.editing) return true; // Already editing
 
     // Save the original data, to be able to cancel changes
-    if (!row.originalData || !this._config.restoreOriginalDataOnCancel) {
-      row.originalData = row.cloneData();
+    if (this._config.restoreOriginalDataOnCancel) {
+      this.keepOriginalData(row);
     }
     row.editing = true;
     return true;
+  }
+
+  keepOriginalData(row: R): void {
+    if (!row.originalData) {
+      row.originalData = row.cloneData();
+    }
   }
 
   /**

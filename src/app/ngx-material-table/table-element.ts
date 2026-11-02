@@ -40,6 +40,10 @@ export abstract class TableElement<T> {
     return this.source.startEdit(this);
   }
 
+  keepOriginalData(): void {
+    this.source.keepOriginalData(this);
+  }
+
   move(direction: number): boolean {
     return this.source.move(this.id, direction);
   }

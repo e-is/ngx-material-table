@@ -39,6 +39,10 @@ export abstract class AsyncTableElement<T> {
     return this.source.startEdit(this);
   }
 
+  keepOriginalData(): void {
+    this.source.keepOriginalData(this);
+  }
+
   move(direction: number): Promise<boolean> {
     return this.source.move(this.id, direction);
   }

@@ -14,6 +14,7 @@ export interface IAsyncTableDataSource<T, R extends AsyncTableElement<T>> extend
   cancelOrDelete(row: R, options?: { emitEvent: boolean }): Promise<boolean>;
   cancel(row: R): Promise<boolean>;
   startEdit(row: R): Promise<boolean>;
+  keepOriginalData(row: R): void;
   move(id: number, direction: number): Promise<boolean>;
 }
 
@@ -288,11 +289,17 @@ export class AsyncTableDataSource<
     if (row.editing) return true; // Already editing
 
     // Save the original data, to be able to cancel changes
-    if (!row.originalData || !this._config.restoreOriginalDataOnCancel) {
-      row.originalData = row.cloneData();
+    if (this._config.restoreOriginalDataOnCancel) {
+      this.keepOriginalData(row);
     }
     row.editing = true;
     return true;
+  }
+
+  keepOriginalData(row: R): void {
+    if (!row.originalData) {
+      row.originalData = row.cloneData();
+    }
   }
 
   /**
