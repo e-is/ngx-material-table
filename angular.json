@@ -90,10 +90,11 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [],
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
+            "browsers": "ChromeHeadlessNoSandbox",
+            "include": ["**/*.spec.ts"],
             "scripts": [],
             "styles": [
               "src/styles.scss"
