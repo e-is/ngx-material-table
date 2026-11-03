@@ -3,8 +3,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PersonValidatorService } from './person-list.validator';
 import { environment } from '../../environments/environment';
 import { generatePersons, Person } from './person.model';
-import { ScrollableTableDataSource } from '../ngx-material-table/scrollable/scrollable-table-data-source';
-import { AsyncTableElement } from '../ngx-material-table/async/async-table-element';
+import { AsyncTableDataSource } from '../ngx-material-table/async/async-table-data-source';
+import { tableRowTrackBy } from '../ngx-material-table/virtual-scroll/table-virtual-scroll.utils';
 
 @Component({
     selector: 'app-person-list-scrollable',
@@ -24,24 +24,24 @@ export class PersonListScrollableComponent implements OnInit {
   @Input() personList: Person[];
   @Output() personListChange = new EventEmitter<Person[]>();
 
-  dataSource: ScrollableTableDataSource<Person>;
+  dataSource: AsyncTableDataSource<Person>;
 
   constructor(private personValidator: ValidatorService) {
     this.personList = generatePersons(10000);
   }
 
   ngOnInit() {
-    this.dataSource = new ScrollableTableDataSource<Person>(this.personList || [], Person, this.personValidator, {
+    this.dataSource = new AsyncTableDataSource<Person>(this.personList || [], Person, this.personValidator, {
       prependNewElements: false,
       suppressErrors: !environment.production,
+      // The table slices the rendered window; the datasource keeps every row
+      virtualScroll: true,
     });
 
     this.dataSource.datasourceSubject.subscribe((personList) => this.personListChange.emit(personList));
   }
 
-  trackByFn(index: number, row: AsyncTableElement<Person>) {
-    return row.id;
-  }
+  trackByFn = tableRowTrackBy;
 
   generatePersons = generatePersons;
 
