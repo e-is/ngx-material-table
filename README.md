@@ -232,6 +232,73 @@ class PersonValidatorService implements ValidatorService {
 
 ```
 
+## Virtual scroll
+
+Tables with a large number of rows can render only the visible window, with
+`@angular/cdk/scrolling` (no third party package).
+
+```typescript
+// The datasource keeps every row: the table slices the rendered window
+this.dataSource = new AsyncTableDataSource<Person>(persons, Person, this.personValidator, {
+  virtualScroll: true,
+});
+```
+
+```html
+<cdk-virtual-scroll-viewport tableVirtualScroll>
+  <mat-table [dataSource]="dataSource" [trackBy]="trackByFn">
+    <!-- one matRowDef only -->
+  </mat-table>
+</cdk-virtual-scroll-viewport>
+```
+
+```typescript
+// Stable identity: the row id of a table element is an index, and is renumbered
+// on every insertion, deletion or move; the identity used here is the data id.
+trackByFn = tableRowTrackBy;
+```
+
+`TableVirtualScrollDirective` (`tableVirtualScroll`) provides the fixed size scroll
+strategy, and reads the row height at runtime from `--mat-row-height`, computed on the
+viewport host:
+
+```scss
+.cdk-virtual-scroll-viewport {
+  --mat-row-height: 34px;
+}
+```
+
+API:
+
+- `virtualScroll` (or `setVirtualScroll(value)`) on `TableDataSource` / `AsyncTableDataSource`:
+  when `true`, `connect()` returns every known row and `CdkTable` is the only authority that
+  slices the window. When `false` (default), the datasource slices the rows from the ranges sent
+  by the collection viewer, as before. **Never slice in both places**: a viewport fed by a
+  datasource that slices as well renders no row at all.
+- `TableVirtualScrollDirective`: `itemSize` (read from `--mat-row-height`), viewport buffers
+  (200/400 px) and the drift guard.
+- `strictRowHeight` (input, default `false`): throw instead of warning on the first rendered row
+  whose height diverges from `itemSize`.
+- `readVirtualRowHeight(element, fallback?)`, `measureRenderedRowHeight(host)`,
+  `isRowHeightDrifted(rowHeight, itemSize)`, `isRowIndexOutsideRange(index, range)`,
+  `computeRowCollapsed(focusRowsEnabled, focused, virtualScroll)`, `tableRowTrackBy` /
+  `createTableRowTrackBy(identity?)`, and the `DEFAULT_TABLE_ROW_HEIGHT` fallback.
+- `IAsyncTableDataSource` also accepts the optional `totalRowCount` and `loading` members, for
+  paginated sources.
+
+### Fixed row height is a requirement
+
+A virtual viewport maps a row index to an offset, so every rendered row must be exactly
+`itemSize` high. Under a virtualised table, the following are **not supported**: collapsed rows
+(`.mat-row-collapsed`), compact mode (`.compact`, `-small`), auto height (`-height-auto`), a
+second `matRowDef` (detail row), a table nested in a row, and cell content that grows a row
+(`mat-hint`, `mat-error`, several lines of text). `computeRowCollapsed()` returns `false` when the
+table is virtualised, and the drift guard reports the first violation, once, in development.
+
+`ScrollableTableDataSource` is kept as a **deprecated** alias of `AsyncTableDataSource` with
+`virtualScroll` enabled. It no longer depends on `ng-table-virtual-scroll`, whose row stacking is
+broken on Angular 21.
+
 ## Contributions
 
 Any suggestion or contribution will be appreciated.

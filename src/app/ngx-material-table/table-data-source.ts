@@ -12,11 +12,13 @@ import { UntypedFormGroup } from '@angular/forms';
  * prependNewElements: if true, the new row is prepended to all other rows; otherwise it is appended
  * suppressErrors: if true, no error log
  * restoreOriginalDataOnCancel: if true, canceling a row will restore the original data, otherwise, previous data is restored
+ * virtualScroll: if true, connect() returns every known row and the table (CdkTable) slices the rendered window
  **/
 export interface TableDataSourceConfig {
   prependNewElements?: boolean;
   suppressErrors?: boolean;
   restoreOriginalDataOnCancel?: boolean;
+  virtualScroll?: boolean;
 }
 
 export class TableDataSource<
@@ -45,9 +47,28 @@ export class TableDataSource<
   protected currentData: any;
   private readonly _config: C;
   private _newElement: R = null;
+  private _virtualScroll: boolean;
 
   get config(): C {
     return this._config;
+  }
+
+  /**
+   * When true, this datasource is the source of a virtualised table: `connect()` returns
+   * every known row and the table (`CdkTable`) is the only authority that slices the
+   * rendered window. When false (default), `connect()` slices the rows itself, from the
+   * ranges sent by the collection viewer.
+   */
+  get virtualScroll(): boolean {
+    return this._virtualScroll;
+  }
+
+  set virtualScroll(value: boolean) {
+    this._virtualScroll = value === true;
+  }
+
+  setVirtualScroll(value: boolean): void {
+    this.virtualScroll = value;
   }
 
   /**
@@ -78,6 +99,7 @@ export class TableDataSource<
       restoreOriginalDataOnCancel: false,
       ...config,
     };
+    this._virtualScroll = this._config.virtualScroll === true;
 
     if (dataType) {
       this.dataConstructor = dataType;
@@ -586,6 +608,13 @@ export class TableDataSource<
     // No collection viewer: return all data
     if (!collectionViewer) {
       return this.rowsSubject.asObservable();
+    }
+
+    // Virtualised table: CdkTable is the only authority that slices the rendered window.
+    // Slicing here as well would give it an already reduced array, and it would slice that
+    // array a second time: the viewport then renders nothing.
+    if (this._virtualScroll) {
+      return this.rowsSubject.asObservable().pipe(filter((data) => data !== null && data !== undefined));
     }
 
     const range: ListRange = {

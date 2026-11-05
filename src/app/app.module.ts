@@ -18,7 +18,7 @@ import { BasicExampleComponent } from './example-source-code/basic-example.compo
 import { AppRoutingModule } from './app-routing.module';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { TableVirtualScrollModule } from 'ng-table-virtual-scroll';
+import { TableVirtualScrollDirective } from './ngx-material-table/virtual-scroll/table-virtual-scroll.directive';
 
 @NgModule({
   declarations: [
@@ -38,7 +38,7 @@ import { TableVirtualScrollModule } from 'ng-table-virtual-scroll';
     FormsModule,
     ScrollingModule,
     AppRoutingModule,
-    TableVirtualScrollModule,
+    TableVirtualScrollDirective,
 
     // Example dependencies
     MatInputModule,

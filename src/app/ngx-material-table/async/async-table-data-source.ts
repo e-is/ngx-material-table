@@ -16,6 +16,19 @@ export interface IAsyncTableDataSource<T, R extends AsyncTableElement<T>> extend
   startEdit(row: R): Promise<boolean>;
   keepOriginalData(row: R): void;
   move(id: number, direction: number): Promise<boolean>;
+
+  /**
+   * When true, this datasource is the source of a virtualised table: `connect()` returns
+   * every known row and the table (`CdkTable`) slices the rendered window. Optional, so
+   * that existing implementations are not impacted: absent means `false`.
+   */
+  virtualScroll?: boolean;
+
+  /** Total number of rows known by the source, when the source is paginated. Optional. */
+  totalRowCount?: number;
+
+  /** True while the source is fetching more rows. Optional. */
+  loading?: boolean;
 }
 
 export class AsyncTableDataSource<
@@ -44,10 +57,35 @@ export class AsyncTableDataSource<
   protected currentData: any;
   private readonly _config: C;
   private _newElement: R = null;
+  private _virtualScroll: boolean;
 
   get config(): C {
     return this._config;
   }
+
+  /**
+   * When true, this datasource is the source of a virtualised table: `connect()` returns
+   * every known row and the table (`CdkTable`) is the only authority that slices the
+   * rendered window. When false (default), `connect()` slices the rows itself, from the
+   * ranges sent by the collection viewer.
+   */
+  get virtualScroll(): boolean {
+    return this._virtualScroll;
+  }
+
+  set virtualScroll(value: boolean) {
+    this._virtualScroll = value === true;
+  }
+
+  setVirtualScroll(value: boolean): void {
+    this.virtualScroll = value;
+  }
+
+  /** Total number of rows known by the source, when the source is paginated. */
+  totalRowCount?: number;
+
+  /** True while the source is fetching more rows. */
+  loading?: boolean;
 
   /**
    * Say if there is a new (and not confirmed) row
@@ -77,6 +115,7 @@ export class AsyncTableDataSource<
       restoreOriginalDataOnCancel: false,
       ...config,
     };
+    this._virtualScroll = this._config.virtualScroll === true;
 
     if (dataType) {
       this.dataConstructor = dataType;
@@ -583,6 +622,13 @@ export class AsyncTableDataSource<
     // No collection viewer: return all data
     if (!collectionViewer) {
       return this.rowsSubject.asObservable();
+    }
+
+    // Virtualised table: CdkTable is the only authority that slices the rendered window.
+    // Slicing here as well would give it an already reduced array, and it would slice that
+    // array a second time: the viewport then renders nothing.
+    if (this._virtualScroll) {
+      return this.rowsSubject.asObservable().pipe(filter((data) => data !== null && data !== undefined));
     }
 
     const range: ListRange = {

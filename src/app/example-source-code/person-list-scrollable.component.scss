@@ -1,13 +1,35 @@
+// Fixed row height is a requirement of the virtualised mode: the viewport maps an index
+// to an offset, so every row must be exactly --mat-row-height high.
+.cdk-virtual-scroll-viewport {
+  --mat-row-height: 58px;
+
+  width: calc(100% - 2 * var(--margin, 0px));
+  min-height: calc(100vh - 131px - 2 * var(--margin, 0px));
+}
+
 .mat-mdc-table {
   width: 100%;
 
+  .mat-mdc-header-row,
   .mat-mdc-row {
-    min-height: 58px;
-    max-height: 58px;
+    height: var(--mat-row-height);
+    min-height: var(--mat-row-height);
+    max-height: var(--mat-row-height);
+    overflow: hidden;
   }
 }
 
-.cdk-virtual-scroll-viewport {
-  width: calc(100% - 2 * var(--margin, 0px));
-  min-height: calc(100vh - 131px - 2 * var(--margin, 0px));
+.row-input {
+  box-sizing: border-box;
+  width: 100%;
+  height: calc(var(--mat-row-height) - 20px);
+  padding: 0 8px;
+  border: 1px solid var(--mat-sys-outline, #ccc);
+  border-radius: 4px;
+  background: transparent;
+  font: inherit;
+
+  &.invalid {
+    border-color: var(--mat-sys-error, #b3261e);
+  }
 }

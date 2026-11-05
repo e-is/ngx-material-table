@@ -4,6 +4,7 @@
         "entryFile": "public_api.ts"
     },
     "allowedNonPeerDependencies": [
-      "clone"
+      "clone",
+      "tslib"
     ]
 }
